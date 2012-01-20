@@ -28,4 +28,6 @@ CRC = messagebyte
 }}}
 
 Rather than attaching a 256 byte table it is included in the repository along with the C program that produced it.
-     
+
+Finally my understanding of CRCs has been greatly helped by a paper written by Ross Williams. I cannot recommend it enough.
+http://www.ross.net/crc/     
