@@ -26,4 +26,6 @@ while(augmented message not exhausted){
 }
 CRC = messagebyte
 }}}
+
+Rather than attaching a 256 byte table it is included in the repository along with the C program that produced it.
      
