@@ -13,9 +13,9 @@ To discover the N64 Data CRC a message was sent to a controller with the last bi
 
 As with all CRCs the message is augmented with a byte of 0x00.
 
-That's all that's needed to describe the N64 CRC. It's a fairly simple 8 bit CRC that wasn't too difficult to work out however calculation of the CRC using the poly is quite computationally expensive, especially when running on a microcontroller. It requires a XOR, shift and most crucially knowledge of the next 7 bits which means its difficult to calculate while the message is being received/sent. Normally this wouldn't be a problem but the N64 controller requires a prompt answer (within a few µs).
+In summary it's a fairly simple 8 bit CRC that wasn't too difficult to work out however calculation of the CRC using the poly is quite computationally expensive, especially when running on a microcontroller. It requires a XOR, shift and most crucially knowledge of the next 7 bits which means it's difficult to calculate while the message is being received/sent. Normally this wouldn't be a problem but the N64 controller requires a prompt answer (within a few µs).
 
-To deal with this an alternative approach is used. Its possible to pre-calculate the effect a byte will have on itself and the next byte and store it in a table with 256 entries. While it can be difficult for a first year uni student like me to figure out the rewards are significant. Each byte requires merely a table lookup and a XOR.
+To deal with this an alternative approach is used. Its possible to pre-calculate the effect a byte will have on itself and the next byte and store it in a table with 256 entries. While it was difficult to work out the rewards are significant. Each byte requires merely a table lookup and a XOR.
 
 The algorithm in pseudocode is:
 {{{
@@ -27,7 +27,7 @@ while(augmented message not exhausted){
 CRC = messagebyte
 }}}
 
-Rather than attaching a 256 byte table it is included in the repository along with the C program that produced it.
+The table and the C program used to calculate it are included in the repository.
 
 Finally my understanding of CRCs has been greatly helped by a paper written by Ross Williams. I cannot recommend it enough.
 http://www.ross.net/crc/     
