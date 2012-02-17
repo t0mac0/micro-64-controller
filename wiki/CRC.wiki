@@ -32,7 +32,8 @@ The table and the C program used to calculate it are included in the repository.
 Finally my understanding of CRCs has been greatly helped by a paper written by Ross Williams. I cannot recommend it enough.
 http://www.ross.net/crc/
 
-= Address CRC =
+
+== Address CRC ==
 The same approach was reused to find the address CRC:
  * Length: n=5 with an implicit 6th "1" bit
  * Poly: 0x15
