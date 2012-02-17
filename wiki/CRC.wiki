@@ -1,9 +1,9 @@
 #summary N64 Data CRC
 = Introduction =
-Complete description of the N64 CRC along with some implementations.
+Complete description of the N64's two CRCs along with some implementations.
 
 
-= Details =
+= Data CRC =
 
 To discover the N64 Data CRC a message was sent to a controller with the last bit set. From this it was easy to compare the returned CRC and message to find the CRC polynomial:
  * Length: n=8 with an implicit 9th "1" bit
@@ -30,4 +30,11 @@ CRC = messagebyte
 The table and the C program used to calculate it are included in the repository.
 
 Finally my understanding of CRCs has been greatly helped by a paper written by Ross Williams. I cannot recommend it enough.
-http://www.ross.net/crc/     
+http://www.ross.net/crc/
+
+= Address CRC =
+The same approach was reused to find the address CRC:
+ * Length: n=5 with an implicit 6th "1" bit
+ * Poly: 0x15
+ * Initial Value: 0x00
+ * Post XOR: 0x00
