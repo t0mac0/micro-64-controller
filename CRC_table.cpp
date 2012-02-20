@@ -1,3 +1,18 @@
+//    This file is part of Micro 64's Firmware.
+
+//    Micro 64 is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+//
+//    Micro 64 is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License
+//    along with Micro 64.  If not, see <http://www.gnu.org/licenses/>.
+
 // Simple program with the primary purpose of working out a precomputed CRC table.
 // To check that the table is correct the program can test using a repeated message.
 // A file called crc.dat needs to be placed at whatever directory fopen is set to use
