@@ -81,7 +81,7 @@ skipread    btfsc	PORTC,	6
     bsf temp,	0
     decfsz	iterate
     goto	iteraterecord
-    return
+    return                          ;25 cycles after the start of the last bit we return (including return)
 
 ;instantly produces a stop bit and leaves with some cycles to spare
 ;******************************************************************
@@ -199,7 +199,9 @@ fourus    return
 ;Writes 32 bytes to flash, not actually written to flash but instead scratch space ready
 ;for the user to indicate moving the data to flash. Fun and complicated function
 ;***************************************************************************************
-pakwrite    movlb   0x00
+pakwrite    movlb   0x00                ;comes here 36 cycles after the start of the last stop bit
+    movlw   0x01
+    call    delay
     call    record8bitswait
     movff   temp,   addr1
     movlw   0x03
@@ -214,6 +216,9 @@ pakwrite    movlb   0x00
     movwf   FSR0H
     movlw   b'00000000'                 ;lower byte of indirect address
     movwf   FSR0L
+
+    movlw   0x01                        ;Believe it or not ladies and gentleman the blinding speed of this micro
+    call    delay                       ;means if we start here we actually get the last bit of the 2nd address byte. nb: may not be true :p
 
     call    record8bitswait
     movff   temp,   crc
@@ -244,6 +249,8 @@ write32    call    record8bitswait
     goto    $+2
     goto    $+2
     call    stopbit
+
+    ;call   writetoscratch
    
     return
 
