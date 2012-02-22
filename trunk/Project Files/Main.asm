@@ -57,7 +57,7 @@
         call    record8bits
 
         movff   temp,   command
-        call    fourus
+        call    fourus                  ;29 cycles after start of last command bit (not including stop bit)
 
 	;movlw	0x02
 	;subwf	command,	w       ;read 32 bytes
@@ -103,6 +103,7 @@ contstatus	movlw	0x05
         goto    $+2
         goto    $+2
         call    stopbit
+
 	return
 
 contbuttons	movlw	0x00
@@ -134,8 +135,8 @@ init        movlb   0x0E
         movwf   EECON1
         clrf    rumble
 
-        call    TOCreset
-        call    scratchflashinit                ;There might still be stuff left there in the event of unexpected reset
+        ;call    TOCreset
+        ;call    scratchflashinit                ;There might still be stuff left there in the event of unexpected reset
                                                 ;It's impossible to recover due to a lack of TOC so down the toilet it goes.
         clrf    INTCON2
         movlw   b'01001001'
@@ -209,6 +210,11 @@ flasherase  bsf EECON1, WREN    ;enable write to memory
     bsf EECON1, WR              ;start erase (CPU stall)
     bsf INTCON, GIE             ;re-enable interrupts
     return
+
+;Writes the 32 bytes in RAM to the next free location in flash memory. If we reach
+;the end of scratch spcace then it automatically consolidates at the end.
+;*******************************************************************************
+;writetoscratch
 
 ;Delays for 5 + 3*n cycles
 ;*******************************************************************************
