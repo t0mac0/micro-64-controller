@@ -1,4 +1,4 @@
-#summary N64 Data CRC
+#summary N64 Data and address CRC
 = Introduction =
 Complete description of the N64's two CRCs along with some implementations.
 
