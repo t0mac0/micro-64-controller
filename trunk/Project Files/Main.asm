@@ -34,6 +34,7 @@
             count                           ;Used in the delay routine.            
             crc                             ;Contains the CRC at the end of calculation
             crctemp                         ;Used in the calculation of the data CRC
+            addrcrc                         ;Stores the address CRC until needed
             temp                            ;We need scratch space!
             temp2                           ;That wasn't enough!
             temp3                           ;Now I'm just being greedy
@@ -59,11 +60,11 @@
         movff   temp,   command
         call    fourus                  ;29 cycles after start of last command bit (not including stop bit)
 
-	;movlw	0x02
-	;subwf	command,	w       ;read 32 bytes
+	movlw	0x02
+	subwf	command,	w       ;read 32 bytes
 
-	;btfsc   STATUS, Z
-	;call	pakread
+	btfsc   STATUS, Z
+	call	pakread
 
 	movlw	0x03
 	subwf	command,	w       ;write 32 bytes

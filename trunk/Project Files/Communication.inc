@@ -36,8 +36,7 @@ skip        bcf     TRISC,  6
     btfsc	temp,	7
     bsf	TRISC,	6                   ;has 23 cycles afterwards
 
-    movlw 0x00
-    cpfseq  iterate                 ;we check for the last iteration and if so calculate the crc with that byte
+    decfsz  iterate                 ;we check for the last iteration and if so calculate the crc with that byte
     goto normdelay
 
     call    crcbyteretrieve
@@ -49,9 +48,7 @@ normdelay    movlw   0x04
     goto    $+2
 
     bsf	TRISC,	6
-    decfsz	iterate,    f
     goto	iteratesend
-    return
 
 ;Records one byte and leaves it in temp
 ;*************************************************
@@ -96,99 +93,100 @@ stopbit        bcf     TRISC,  6
 ;*******************************************************************
 pakread call    record8bitswait         ;Gets the two adress bytes and masks the second one
     movff   temp,   addr1
-    movlw   0x01
+    movlw   0x02
     call    delay
     call    record8bitswait
     movff   temp, addr2
+
+    movlw   b'00011111'
+    andwf   addr2,  w
+    movwf   addrcrc             ;gets the address crc bits
     movlw   b'11100000'
     andwf   addr2,  f           ;masks the address crc bits off
 
-    movff   addr2,  temp2
     movff   addr1,  temp
+    movff   addr2,  temp2
 
     movlw   b'00100000'         ;sets up the table reads, needed for CRC as well as normal data
     movwf   EECON1
-    movlw   0x00
-    movwf   TBLPTRU
+    clrf    TBLPTRU
 
-    rrcf    temp,   f
-    rrcf    temp2,  f
-    rrcf    temp,  f
-    rrcf    temp2,  f
-    rrcf    temp,  f
-    rrcf    temp2,  f
-    rrcf    temp,  f
-    rrcf    temp2,  f
-    rrcf    temp,  f
-    rrcf    temp2,  f
+    ;rrcf    temp,   f
+    ;rrcf    temp2,  f
+    ;rrcf    temp,  f
+    ;rrcf    temp2,  f
+    ;rrcf    temp,  f
+    ;rrcf    temp2,  f
+    ;rrcf    temp,  f
+    ;rrcf    temp2,  f
+    ;rrcf    temp,  f
+    ;rrcf    temp2,  f
 
     btfsc   temp,   7           ;branches of if messing with memory space reserved for rumble
     goto    rumbleloop
 
-mempack    movlw   b'00000011'         ;masks any carry bits that shouldn't be there and gets rid of the rumble bit
-    andwf   temp,   f
-    movlw   b'01110000'         ;offsets from 0x7000
-    iorwf   temp,   f
+mempack    ;movlw   b'00000011'         ;masks any carry bits that shouldn't be there and gets rid of the rumble bit
+    ;andwf   temp,   f
+    ;movlw   b'01110000'         ;offsets from 0x7000
+    ;iorwf   temp,   f
 
-    movff   temp,   TBLPTRH
-    movff   temp2,  TBLPTRL
+    ;movff   temp,   TBLPTRH
+    ;movff   temp2,  TBLPTRL
     
-    clrf    TBLPTRH
+    ;clrf    TBLPTRH
 
-    tblrd*                      ;Checks the table of contents (0x6000) to see where the latest data is stored
+    ;tblrd*                      ;Checks the table of contents (0x6000) to see where the latest data is stored
     
-    movlw   b'01110000'         ;0x07000   
+    ;movlw   b'01110000'         ;0x07000
     
-    btfss   TABLAT, 0
-    movlw   b'11110000'         ;0x0F000
+    ;btfss   TABLAT, 0
+    ;movlw   b'11110000'         ;0x0F000
 
-    btfsc   TABLAT, 1           ;0x17000
-    goto    $+6                 
-    movlw   0x01
-    movwf   TBLPTRH
-    movlw   b'01110000'
-    movwf   TBLPTRL
-    clrf    crc
+    ;btfsc   TABLAT, 1           ;0x17000
+    ;goto    $+6
+    ;movlw   0x01
+    ;movwf   TBLPTRH
+    ;movlw   b'01110000'
+    ;movwf   TBLPTRL
+    ;clrf    crc
 
-    movlw   0x19
-    movwf   iterate2
+    ;movlw   0x19
+    ;movwf   iterate2
 
-    tblrd*+                     ;first byte without CRC
-    movf    TABLAT, w
-    call    send8bits
-    movff   temp,   crc
+    ;tblrd*+                     ;first byte without CRC
+    ;movf    TABLAT, w
+    ;call    send8bits
+    ;movff   temp,   crc
 
-read32  tblrd*+
-    movf    TABLAT, w
-    xorwf   crc,    f
+read32  ;tblrd*+
+    ;movf    TABLAT, w
+    ;xorwf   crc,    f
     
-    call    send8bits
+    ;call    send8bits
    
-    decfsz  iterate2, f
-    goto    read32
-    goto    retcrc                ;returns and is nearly the end of the read except for stop bit in the case of memory pack
+    ;decfsz  iterate2, f
+    ;goto    read32
+    ;goto    retcrc                ;returns and is nearly the end of the read except for stop bit in the case of memory pack
 
-rumbleloop    movlw   0x19
+rumbleloop    movlw   d'31'
     movwf   iterate2
 
     movf    rumble, w           ;copy of above pretty much with changes so that this instead reads out the value of the rumble pack
-                                ;When looking inside a rumble pack it appeared that when the highest adress bit was set the rumble would
+    movff   rumble,   crc       ;When looking inside a rumble pack it appeared that when the highest adress bit was set the rumble would
     call    send8bits           ;latch the data byte and then drive the motor with intensity related to that.
-    movff   temp,   crc                                   
-   
-rumble32  movf  rumble, w
-    xorwf   crc,    f
 
+rumble32    movf    rumble, w
+    xorwf   crc,    f
+  
     call    send8bits
- 
+    
     decfsz  iterate2, f
-    goto    rumble32
+    goto    rumble32  
 
 retcrc    movlw   0x00
-    xorwf   crc,    f                   ;augments the message and calculates the final crc
-
-    movf    crc,    w
+    xorwf   crc,    w                   ;augments the message and calculates the final crc
     call    send8bits
+
     goto    $+2
     goto    $+2
     call    stopbit
@@ -224,7 +222,7 @@ pakwrite    movlb   0x00                ;comes here 36 cycles after the start of
     movff   temp,   crc
     movff   temp,   POSTINC0            ;stores in indirect address with post increment
 
-    movlw   0x01
+    movlw   0x03
     call    delay
 
 write32    call    record8bitswait
@@ -250,8 +248,15 @@ write32    call    record8bitswait
     goto    $+2
     call    stopbit
 
+    btfsc   addr1,  7
+    goto    rumblewrite
+
     ;call   writetoscratch
    
+    return
+
+rumblewrite decf    FSR0L
+    movff   INDF0,  rumble
     return
 
 ;Retrieves a control byte for the CRC using the lookup table that I am 
