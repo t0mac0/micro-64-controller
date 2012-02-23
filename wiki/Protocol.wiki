@@ -1,4 +1,4 @@
-#Short yet fairly in depth summary of the n64 controller protocol
+#short yet fairly in depth summary of the n64 controller protocol
 
 = Introduction =
 
