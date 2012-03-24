@@ -24,6 +24,13 @@ The controller responds with three bytes to identify itself. For a normal contro
 
 ==0x01==
 The controller responds with four bytes of button and joystick data
+
+|| Byte ||Data||
+|| 1 || A || B || Z || Start || D up || D down || D left || D right ||
+|| 2 || Joy reset || 0 || L || R || C up || C Right || C down || C left  ||
+|| 3 || Joystick x ordinate ||
+|| 4 || Joystick y ordinate ||
+
  
 ==0x02== 
 The N64 follows this command with two bytes which indicate the address to be read from and a CRC to verify the address (these are described below). The controller responds with 32 bytes from the indicated address and ends with a data CRC.
