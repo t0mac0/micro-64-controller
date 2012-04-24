@@ -1,0 +1,24 @@
+#Past Efforts
+
+= Introduction =
+
+When I originally wanted to start playing with the N64 controller protocol I used the only PIC I had on hand which was a 16f628a. Despite somehow killing many PICs I managed to create a functioning controller.
+
+= Details =
+
+The Controller works by constantly updating its inputs and an interrupt triggers the controller to read the data line for communication. The console initiates all communication so the approach works quite well although it would be impossible with even a slightly lower clock speed. 
+
+The two largest constraints with working with the 16f628a were the number of inputs and speed of the micro. The 20Mhz is internally divided by 4 to get a clock speed of 5 cycles a microsecond. Considering that the controller bit bangs a signal with a 1us resolution of sorts then there aren't any instruction cycles to waste.
+
+When using a crystal and dedicating one input to the data line there are just enough inputs to to implement the most commonly used buttons on the N64 controller. These are Start, A, B, R, Z and the C buttons. Of course the joystick is kinda good as well.
+
+After working out a fairly functional PIC based controller I wanted a good way to show off my fairly uninteresting breadboard project. Creating the smallest N64 controller ever seemed like a good idea to show off the controller's ability. I put together the controller over the course of a weekend for a competition on the Benheck forums. The triggers are mapped to R and Z and to save space on the controller the C buttons were replaced with a 4 directional tact switch.
+
+The controller worked fairly well but as with nearly all projects there are improvements that I'd like to make. These include improving the how the joystick is handled, adding macros, an option to remap buttons and even joysticks (like a C stick similar to the gamecube) and implementing the rumble and memory pack.
+
+Rather than continue with the limited hardware the next iteration of the N64 controller will use a faster micro with more inputs and enough memory to implement all of these functions.
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
