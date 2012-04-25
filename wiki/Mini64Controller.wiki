@@ -2,7 +2,7 @@
 
 = Introduction =
 
-When I originally wanted to start playing with the N64 controller protocol I used the only PIC I had on hand which was a 16f628a. Despite somehow killing many PICs I managed to create a functioning controller.
+When I originally wanted to start playing with the N64 controller protocol I used the only PIC I had on hand which was a 16f628a. Despite being my first real microcontroller project and killing many PICs I managed to create a functioning controller.
 
 = Details =
 
@@ -14,11 +14,14 @@ When using a crystal and dedicating one input to the data line there are just en
 
 After working out a fairly functional PIC based controller I wanted a good way to show off my fairly uninteresting breadboard project. Creating the smallest N64 controller ever seemed like a good idea to show off the controller's ability. I put together the controller over the course of a weekend for a competition on the Benheck forums. The triggers are mapped to R and Z and to save space on the controller the C buttons were replaced with a 4 directional tact switch.
 
-The controller worked fairly well but as with nearly all projects there are improvements that I'd like to make. These include improving the how the joystick is handled, adding macros, an option to remap buttons and even joysticks (like a C stick similar to the gamecube) and implementing the rumble and memory pack.
+As you can see the directional tact doesn't have its switch on it. I had one C button from a dead controller which I dropped behind my desk while I was building the controller and I never found it again.
+
+http://i297.photobucket.com/albums/mm207/evilteddy_2008/Controllerinhands-1.png
+
+http://i297.photobucket.com/albums/mm207/evilteddy_2008/Controllerwithconsole-1.png
+
+The controller worked fairly well but as with nearly all projects there are improvements that I'd like to make. These include improving the how the joystick is handled, adding macros, an option to remap buttons, more joysticks (like a C stick similar to the gamecube) and implementing the rumble and memory pack.
 
 Rather than continue with the limited hardware the next iteration of the N64 controller will use a faster micro with more inputs and enough memory to implement all of these functions.
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+<wiki:video url="http://www.youtube.com/watch?v=YT_C8aPI8m8"/>
