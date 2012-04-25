@@ -24,4 +24,4 @@ The controller worked fairly well but as with nearly all projects there are impr
 
 Rather than continue with the limited hardware the next iteration of the N64 controller will use a faster micro with more inputs and enough memory to implement all of these functions.
 
-<wiki:video url="http://www.youtube.com/watch?v=YT_C8aPI8m8"/>
+[http://www.youtube.com/watch?v=YT_C8aPI8m8 Here's] a short video of the controller in action.
