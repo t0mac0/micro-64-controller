@@ -31,6 +31,7 @@ The controller responds with four bytes of button and joystick data
 || 3 || Joystick x ordinate ||
 || 4 || Joystick y ordinate ||
 
+While the joystick data is a signed 8 bit 2s complement we know from Micro that controllers only have 160 steps on them and I've had games which screw up when given the full 8 bit range.
  
 ==0x02== 
 The N64 follows this command with two bytes which indicate the address to be read from and a CRC to verify the address (these are described below). The controller responds with 32 bytes from the indicated address and ends with a data CRC.
