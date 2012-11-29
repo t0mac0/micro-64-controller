@@ -27,7 +27,7 @@ The controller responds with four bytes of button and joystick data
 
 || Byte ||Data||
 || 1 || A || B || Z || Start || D up || D down || D left || D right ||
-|| 2 || Joy reset || 0 || L || R || C up || C Right || C down || C left  ||
+|| 2 || Joy reset || 0 || L || R || C up || C down || C left || C right  ||
 || 3 || Joystick x ordinate ||
 || 4 || Joystick y ordinate ||
 
